@@ -9,7 +9,6 @@ services:
     volumes:
       # Persist DuckDB database
       - ./data:/app/data
-      - ./portfolio.duckdb:/app/portfolio.duckdb
     environment:
       - STREAMLIT_SERVER_HEADLESS=true
     restart: unless-stopped
