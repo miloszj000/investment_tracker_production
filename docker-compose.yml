@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  etf-tracker:
+    build: .
+    container_name: etf-tracker
+    ports:
+      - "8501:8501"
+    volumes:
+      # Persist DuckDB database
+      - ./data:/app/data
+      - ./portfolio.duckdb:/app/portfolio.duckdb
+    environment:
+      - STREAMLIT_SERVER_HEADLESS=true
+    restart: unless-stopped
+    # Open browser automatically (requires docker-compose version 3.8+)
+    labels:
+      - "com.example.description=ETF Portfolio Tracker"
