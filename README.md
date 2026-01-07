@@ -2,6 +2,7 @@
 
 > A professional ETF, ETC, and stock portfolio tracker with real-time pricing and analytics.  
 > **Your data stays on your computer - 100% local, never in the cloud!**
+> Updated: January 2026 - v2.1
 
 ---
 
