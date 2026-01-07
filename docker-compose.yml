@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   etf-tracker:
-    build: .
+    image: ghcr.io/miloszj000/etf-tracker:latest
     container_name: etf-tracker
     ports:
       - "8501:8501"
@@ -13,6 +13,5 @@ services:
     environment:
       - STREAMLIT_SERVER_HEADLESS=true
     restart: unless-stopped
-    # Open browser automatically (requires docker-compose version 3.8+)
     labels:
       - "com.example.description=ETF Portfolio Tracker"
