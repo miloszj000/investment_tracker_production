@@ -11,7 +11,8 @@
 
 1. **Download and install Docker Desktop**: https://www.docker.com/products/docker-desktop
 2. **Run Docker Desktop** (wait until it says "running")
-3. **Double-click `start-docker.bat`** - the app will open automatically! 🚀
+3. **Configure database location (optional)**: Copy `.env.example` to `.env` and customize
+4. **Double-click `start-docker.bat`** - the app will open automatically! 🚀
 
 ### Mac/Linux
 
@@ -22,10 +23,55 @@ docker --version
 # 2. Navigate to project directory
 cd etf_trucker
 
-# 3. Run the script
+# 3. Configure database location (optional)
+cp .env.example .env
+# Edit .env to point to your existing database if you have one
+
+# 4. Run the script
 chmod +x start-docker.sh
 ./start-docker.sh
 ```
+
+## Database Configuration 🗄️
+
+### First Time Setup
+
+By default, the application will create a new database in `./data/portfolio.duckdb`.
+
+### Using Your Existing Database
+
+If you already have a `portfolio.duckdb` file on your computer:
+
+1. **Create `.env` file:**
+```bash
+cp .env.example .env
+```
+
+2. **Edit `.env` and set your database location:**
+```env
+# Point to the directory containing your portfolio.duckdb file
+DB_LOCATION=./data                        # Default - creates ./data/portfolio.duckdb
+DB_LOCATION=C:/Users/YourName/my-etf-data # Windows - use your existing database folder
+DB_LOCATION=/home/user/my-etf-data        # Linux/Mac - use your existing database folder
+```
+
+3. **Important:** The `DB_LOCATION` should point to the **directory** containing your `portfolio.duckdb` file, not the file itself.
+
+4. **Start the application** - it will automatically use your existing database!
+
+### Examples
+
+**Example 1: Using existing database on Windows**
+```env
+DB_LOCATION=C:/Users/Milos/Documents/ETF_Data
+```
+(Your existing database should be at: `C:/Users/Milos/Documents/ETF_Data/portfolio.duckdb`)
+
+**Example 2: Using existing database on Mac/Linux**
+```env
+DB_LOCATION=/home/user/portfolio-backup
+```
+(Your existing database should be at: `/home/user/portfolio-backup/portfolio.duckdb`)
 
 ## Manual Installation (alternative)
 
@@ -60,11 +106,23 @@ Press `CTRL+C` in the terminal or close the terminal window.
 
 ## Data and Persistence ✅
 
-The **portfolio.duckdb** database is automatically mapped as a **volume**, which means:
-- ✅ Data is saved to your hard disk
-- ✅ Data persists across container restarts
-- ✅ You can backup your data: `cp portfolio.duckdb portfolio.duckdb.backup`
-- ✅ You can change the port in `docker-compose.yml`
+Your database is **automatically persisted** and will **never be lost** when updating to new versions!
+
+### How It Works:
+- ✅ Database is saved to your hard disk (not inside the container)
+- ✅ Data persists across container restarts and rebuilds
+- ✅ Updating to new versions keeps your existing data
+- ✅ You can point to an existing database using `.env` configuration
+- ✅ You can backup your data: `cp data/portfolio.duckdb data/portfolio.duckdb.backup`
+
+### Customizing Database Location:
+
+Edit `.env` file (copy from `.env.example` first):
+```env
+DB_LOCATION=./data  # Change to your desired location
+```
+
+See "Database Configuration" section above for more details.
 
 ## Troubleshooting
 
@@ -145,6 +203,8 @@ docker-compose down -v
 etf_trucker/
 ├── Dockerfile              # Image build instructions
 ├── docker-compose.yml      # Docker Compose configuration
+├── .env                    # Your database configuration (create from .env.example)
+├── .env.example            # Example configuration file
 ├── .dockerignore           # Files ignored in image
 ├── start-docker.bat        # Windows launcher
 ├── start-docker.sh         # Linux/Mac launcher
@@ -155,8 +215,8 @@ etf_trucker/
 │   ├── analytics.py
 │   ├── database.py
 │   └── market_data.py
-├── portfolio.duckdb        # Database (persistent)
-└── data/                   # Additional data
+└── data/                   # Database directory (configurable)
+    └── portfolio.duckdb    # Your database (persistent)
 ```
 
 ## Support

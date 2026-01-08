@@ -11,6 +11,20 @@
 ### Prerequisites
 - Docker Desktop ([download](https://www.docker.com/products/docker-desktop))
 
+### Optional: Configure Your Existing Database
+
+If you already have a `portfolio.duckdb` file:
+
+1. Copy `.env.example` to `.env`
+2. Edit `.env` and set `DB_LOCATION` to your database directory
+
+**Example:**
+```env
+DB_LOCATION=C:/Users/YourName/my-portfolio
+```
+
+If you don't have an existing database, skip this step - a new one will be created automatically!
+
 ### Run the Application
 
 **Windows:**
@@ -62,20 +76,36 @@ The application runs as a containerized service with:
 Your investment data is stored in **`portfolio.duckdb`** - a local database file on your computer.
 
 ```
-investment_tracker_production/
+etf_trucker/
 ├── docker-compose.yml
+├── .env.example           # Configuration template
+├── .env                   # Your custom config (optional)
 ├── start-docker.bat
 ├── start-docker.sh
 ├── DOCKER_SETUP.md
 └── data/
-    └── (created automatically)
+    └── portfolio.duckdb   # Your database (created automatically)
 ```
 
 **Data Persistence:**
-- ✅ Data survives container restart
+- ✅ Data survives container restart and upgrades
 - ✅ Database file stays on disk even if container is removed
 - ✅ No cloud storage - everything local
-- ✅ Safe backup: copy `portfolio.duckdb` to backup
+- ✅ Safe backup: copy `data/portfolio.duckdb` to backup
+- ✅ You can point to an existing database via `.env` configuration
+
+**Using Your Existing Database:**
+
+1. Create `.env` file: `cp .env.example .env`
+2. Set `DB_LOCATION` to your database directory:
+   ```env
+   DB_LOCATION=C:/Users/YourName/my-etf-data  # Windows
+   DB_LOCATION=/home/user/my-etf-data         # Linux/Mac
+   ```
+3. Make sure your `portfolio.duckdb` file is in that directory
+4. Start the application - it will use your existing data!
+
+See `DOCKER_SETUP.md` for more details.
 
 ---
 
@@ -132,7 +162,7 @@ docker pull ghcr.io/miloszj000/etf-tracker:latest
 docker-compose up
 ```
 
-Your data (`portfolio.duckdb`) is preserved across updates.
+**Your data is ALWAYS preserved across updates!** The database is stored outside the container, so upgrading will never delete your portfolio data.
 
 ---
 

@@ -6,11 +6,14 @@ services:
     container_name: etf-tracker
     ports:
       - "8501:8501"
+    env_file:
+      - .env
     volumes:
-      # Persist DuckDB database
-      - ./data:/app/data
+      # Persist DuckDB database - configurable via DB_LOCATION in .env
+      - ${DB_LOCATION:-./data}:/app/data
     environment:
       - STREAMLIT_SERVER_HEADLESS=true
+      - DB_PATH=/app/data/portfolio.duckdb
     restart: unless-stopped
     labels:
       - "com.example.description=ETF Portfolio Tracker"
