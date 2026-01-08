@@ -49,7 +49,7 @@ docker-compose pull
 
 if %errorlevel% equ 0 (
     echo [*] Cleaning up old Docker images to save space...
-    docker image prune -a -f 2>nul
+    docker image prune -f 2>nul
 )
 
 echo.
