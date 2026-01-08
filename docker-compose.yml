@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   etf-tracker:
-    image: ghcr.io/miloszj000/etf-tracker:latest
+    image: ghcr.io/miloszj000/etf-tracker:665d8abb414dc50eaa29f201396d58c3bc744aff
     container_name: etf-tracker
     ports:
       - "8501:8501"
