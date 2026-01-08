@@ -18,6 +18,24 @@ if ! docker ps > /dev/null 2>&1; then
 fi
 
 echo "[*] Docker is running..."
+
+# Set database location to Documents folder (outside repo)
+export ETF_DATA_PATH="$HOME/Documents/ETF_Tracker"
+
+# Create database directory if it doesn't exist
+if [ ! -d "$ETF_DATA_PATH" ]; then
+    mkdir -p "$ETF_DATA_PATH"
+fi
+
+# Check if database exists
+if [ -f "$ETF_DATA_PATH/portfolio.duckdb" ]; then
+    echo "[+] Found existing database: $ETF_DATA_PATH/portfolio.duckdb"
+else
+    echo "[!] Database not found. A new database will be initialized in:"
+    echo "    $ETF_DATA_PATH/portfolio.duckdb"
+fi
+echo ""
+
 echo "[*] Checking for updates..."
 echo ""
 

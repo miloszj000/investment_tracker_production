@@ -19,6 +19,24 @@ if errorlevel 1 (
 )
 
 echo [*] Docker is running...
+
+REM Set database location to Documents folder (outside repo)
+set "ETF_DATA_PATH=%USERPROFILE%\Documents\ETF_Tracker"
+
+REM Create database directory if it doesn't exist
+if not exist "%ETF_DATA_PATH%" (
+    mkdir "%ETF_DATA_PATH%"
+)
+
+REM Check if database exists
+if exist "%ETF_DATA_PATH%\portfolio.duckdb" (
+    echo [+] Found existing database: %ETF_DATA_PATH%\portfolio.duckdb
+) else (
+    echo [!] Database not found. A new database will be initialized in:
+    echo     %ETF_DATA_PATH%\portfolio.duckdb
+)
+echo.
+
 echo [*] Checking for updates...
 echo.
 
