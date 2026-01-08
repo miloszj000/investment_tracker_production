@@ -49,7 +49,7 @@ docker-compose pull
 # Cleanup old images only if pull was successful
 if [ $? -eq 0 ]; then
     echo "[*] Cleaning up old Docker images to save space..."
-    docker image prune -af --filter "label=com.example.description=ETF Portfolio Tracker" 2>/dev/null
+    docker image prune -a -f 2>/dev/null
 fi
 
 echo ""
