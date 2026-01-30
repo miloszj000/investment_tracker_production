@@ -11,6 +11,20 @@
 ### Prerequisites
 - Docker Desktop ([download](https://www.docker.com/products/docker-desktop))
 
+### Optional: Configure Your Existing Database
+
+If you already have a `portfolio.duckdb` file:
+
+1. Copy `.env.example` to `.env`
+2. Edit `.env` and set `DB_LOCATION` to your database directory
+
+**Example:**
+```env
+DB_LOCATION=C:/Users/YourName/my-portfolio
+```
+
+If you don't have an existing database, skip this step - a new one will be created automatically!
+
 ### Run the Application
 
 **Windows:**
